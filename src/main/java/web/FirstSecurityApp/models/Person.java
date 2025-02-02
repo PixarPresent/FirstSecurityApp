@@ -1,6 +1,12 @@
 package web.FirstSecurityApp.models;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Users")
@@ -21,8 +27,7 @@ public class Person {
         this.age = age;
     }
 
-    public Person() {
-    }
+    public Person() {}
 
     public int getId() {
         return id;

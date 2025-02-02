@@ -1,6 +1,7 @@
 package web.FirstSecurityApp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,8 @@ import java.util.Optional;
 
 @Service
 public class PersonDetailsService implements UserDetailsService {
+
+
     private final PeopleRepository peopleRepository;
 
     @Autowired
@@ -23,9 +26,11 @@ public class PersonDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Person> person = peopleRepository.findByUsername(username);
-        if (person.isPresent()) {
-            return new PersonDetails(person.get());
+
+        if (person.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
         }
-        throw new UsernameNotFoundException(username);
+
+        return new PersonDetails(person.get());
     }
 }
